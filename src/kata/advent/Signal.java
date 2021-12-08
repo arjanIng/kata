@@ -2,11 +2,12 @@ package kata.advent;
 
 import kata.util.IOUtil;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.lang.String.format;
 
 /**
  *   aaa    000
@@ -37,8 +38,8 @@ import static java.lang.String.format;
  */
 public class Signal {
     
-    public void signal() {
-        List<String> input = IOUtil.getResourceBody("signal.txt");
+    public void signal() throws IOException {
+        List<String> input = Files.lines(Paths.get("./src/kata/advent/signal.txt")).collect(Collectors.toList());
 
         List<Integer> signatures = Arrays.asList(42, 17, 34, 39, 30, 37, 41, 25, 49, 45);
         long total = 0;
@@ -50,7 +51,7 @@ public class Signal {
                 output = output.replace("" + c, "" + parts[0].chars()
                         .filter(t -> t == c).count());
             }
-            
+
             total += Integer.parseInt(Arrays.stream(output.split(" "))
                     .map(d -> d.chars().map(Character::getNumericValue)
                             .reduce(0, Integer::sum))
@@ -60,7 +61,7 @@ public class Signal {
         System.out.printf("Count: %d%n", total);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Signal signal = new Signal();
         signal.signal();
     }
