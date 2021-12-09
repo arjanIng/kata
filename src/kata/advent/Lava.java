@@ -32,6 +32,7 @@ public class Lava {
             }
         }
         sizes.sort(Collections.reverseOrder());
+        
         System.out.printf("Part 1: %d%n", risk);
         System.out.printf("Part 2: %d%n",
                 sizes.get(0) * sizes.get(1) * sizes.get(2));
