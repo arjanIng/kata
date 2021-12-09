@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Lava {
-    
+
     private int[][] map;
 
     public void lava(String inputFile) throws IOException {
@@ -25,6 +25,7 @@ public class Lava {
 
         for (int y = 0; y < map.length; y++) {
             for (int x = 0; x < map[0].length; x++) {
+                neighbors(x, y, i ->)
                 if (map[y][x] < lowestNeighbor(x, y)) {
                     risk += map[y][x] + 1;
                     sizes.add(basinSize(x, y));
@@ -33,22 +34,26 @@ public class Lava {
         }
         sizes.sort(Collections.reverseOrder());
         System.out.printf("Part 1: %d%n", risk);
-        System.out.printf("Part 2: %d%n", 
+        System.out.printf("Part 2: %d%n",
                 sizes.get(0) * sizes.get(1) * sizes.get(2));
+    }
+
+    private int borders(int x, int y) {
+        if (x < 0 || x >= map[0].length || y < 0 || y >= map.length) return 9;
+        return map[y][x];
     }
 
     private int lowestNeighbor(int x, int y) {
         int lowest = Integer.MAX_VALUE;
-        if (x - 1 >= 0) lowest = Math.min(lowest, map[y][x - 1]);
-        if (x + 1 < map[0].length) lowest = Math.min(lowest, map[y][x + 1]);
-        if (y - 1 >= 0) lowest = Math.min(lowest, map[y - 1][x]);
-        if (y + 1 < map.length) lowest = Math.min(lowest, map[y + 1][x]);
+        lowest = Math.min(lowest, borders(x - 1, y));
+        lowest = Math.min(lowest, borders(x + 1, y));
+        lowest = Math.min(lowest, borders(x, y - 1));
+        lowest = Math.min(lowest, borders(x, y + 1));
         return lowest;
     }
 
     private int basinSize(int x, int y) {
-        if (x < 0 || x >= map[0].length || y < 0 || y >= map.length) return 0;
-        if (map[y][x] == 9) return 0;
+        if (borders(x, y) == 9) return 0;
         map[y][x] = 9; // mark as visited
         return basinSize(x - 1, y) +
                 basinSize(x + 1, y) +
