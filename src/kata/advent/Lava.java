@@ -36,9 +36,10 @@ public class Lava {
         System.out.printf("Part 2: %d%n",
                 sizes.get(0) * sizes.get(1) * sizes.get(2));
     }
-    
+
     private int borders(int x, int y) {
-        return (x < 0 || x >= map[0].length || y < 0 || y >= map.length) ? 9 : map[y][x];
+        return (x < 0 || x >= map[0].length || 
+                y < 0 || y >= map.length) ? 9 : map[y][x];
     }
 
     private int lowestNeighbor(int x, int y) {
@@ -53,10 +54,10 @@ public class Lava {
     private int basinSize(int x, int y) {
         if (borders(x, y) == 9) return 0;
         map[y][x] = 9; // mark as visited
-        return basinSize(x - 1, y) +
+        return 1 + basinSize(x - 1, y) +
                 basinSize(x + 1, y) +
                 basinSize(x, y - 1) +
-                basinSize(x, y + 1) + 1;
+                basinSize(x, y + 1);
     }
 
     public static void main(String[] args) throws IOException {
