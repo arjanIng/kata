@@ -13,7 +13,7 @@ public class Lanterns {
     
     public void lanterns() {
         List<String> input = IOUtil.getResourceBody("lantern.txt");
-        System.out.println(format("initial state: %s", input.get(0)));
+        System.out.printf("initial state: %s%n", input.get(0));
         
         for (String num : input.get(0).split(",")) {
             numAtAge[Integer.parseInt(num)]++;
