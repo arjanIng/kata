@@ -36,10 +36,9 @@ public class Lava {
         System.out.printf("Part 2: %d%n",
                 sizes.get(0) * sizes.get(1) * sizes.get(2));
     }
-
+    
     private int borders(int x, int y) {
-        if (x < 0 || x >= map[0].length || y < 0 || y >= map.length) return 9;
-        return map[y][x];
+        return (x < 0 || x >= map[0].length || y < 0 || y >= map.length) ? 9 : map[y][x];
     }
 
     private int lowestNeighbor(int x, int y) {
