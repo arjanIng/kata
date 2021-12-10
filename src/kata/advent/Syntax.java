@@ -61,7 +61,7 @@ public class Syntax {
                 incompleteScores.add(incompleteScore);
             }
         }
-        incompleteScores = incompleteScores.stream().sorted().collect(Collectors.toList());
+        incompleteScores.sort(null);
         System.out.printf("Part 1: %d%n", errorScore);
         System.out.printf("Part 2: %d%n", incompleteScores.get(incompleteScores.size() / 2));
     }
