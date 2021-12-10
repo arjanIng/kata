@@ -31,10 +31,10 @@ public class Syntax {
         incompletePoints.put('<', 4);
 
         long errorScore = 0;
-        List<Long> autoScores = new ArrayList<>();
+        List<Long> incompleteScores = new ArrayList<>();
         
         for (String line: input) {
-            long autoScore = 0;
+            long incompleteScore = 0;
             boolean errorFound = false;
             Stack<Character> stack = new Stack<>();
             for (char c: line.toCharArray()) {
@@ -55,15 +55,15 @@ public class Syntax {
             if (!errorFound) {
                 while (stack.size() > 0) {
                     char c = stack.pop();
-                    autoScore *= 5;
-                    autoScore += incompletePoints.get(c);
+                    incompleteScore *= 5;
+                    incompleteScore += incompletePoints.get(c);
                 }
-                autoScores.add(autoScore);
+                incompleteScores.add(incompleteScore);
             }
         }
-        autoScores = autoScores.stream().sorted().collect(Collectors.toList());
+        incompleteScores = incompleteScores.stream().sorted().collect(Collectors.toList());
         System.out.printf("Part 1: %d%n", errorScore);
-        System.out.printf("Part 2: %d%n", autoScores.get(autoScores.size() / 2));
+        System.out.printf("Part 2: %d%n", incompleteScores.get(incompleteScores.size() / 2));
     }
 
     public static void main(String[] args) throws IOException {
