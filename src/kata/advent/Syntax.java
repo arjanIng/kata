@@ -12,11 +12,11 @@ public class Syntax {
         List<String> input = Files.lines(Paths.get(inputFile))
                 .collect(Collectors.toList());
         
-        Map<Character, Character> openingSymbols = new HashMap<>();
-        openingSymbols.put(')', '(');
-        openingSymbols.put(']', '[');
-        openingSymbols.put('}', '{');
-        openingSymbols.put('>', '<');
+        Map<Character, Character> symbols = new HashMap<>();
+        symbols.put(')', '(');
+        symbols.put(']', '[');
+        symbols.put('}', '{');
+        symbols.put('>', '<');
         
         Map<Character, Integer> errorPoints = new HashMap<>();
         errorPoints.put(')', 3);
@@ -38,12 +38,12 @@ public class Syntax {
             boolean errorFound = false;
             Stack<Character> stack = new Stack<>();
             for (char c: line.toCharArray()) {
-                if (openingSymbols.containsValue(c)) {
+                if (symbols.containsValue(c)) {
                     //opening symbol, always legal.
                     stack.push(c);
-                } else if (openingSymbols.containsKey(c)) {
+                } else if (symbols.containsKey(c)) {
                     // closing symbol, check with stack.
-                    if (stack.peek() == openingSymbols.get(c)) {
+                    if (stack.peek() == symbols.get(c)) {
                         stack.pop();
                     } else {
                         errorScore += errorPoints.get(c);
