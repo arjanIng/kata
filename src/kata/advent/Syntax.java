@@ -13,22 +13,16 @@ public class Syntax {
                 .collect(Collectors.toList());
         
         Map<Character, Character> symbols = new HashMap<>();
-        symbols.put(')', '(');
-        symbols.put(']', '[');
-        symbols.put('}', '{');
-        symbols.put('>', '<');
+        symbols.put('(', ')');
+        symbols.put('[', ']');
+        symbols.put('{', '}');
+        symbols.put('<', '>');
         
-        Map<Character, Integer> errorPoints = new HashMap<>();
-        errorPoints.put(')', 3);
-        errorPoints.put(']', 57);
-        errorPoints.put('}', 1197);
-        errorPoints.put('>', 25137);
-
-        Map<Character, Integer> incompletePoints = new HashMap<>();
-        incompletePoints.put('(', 1);
-        incompletePoints.put('[', 2);
-        incompletePoints.put('{', 3);
-        incompletePoints.put('<', 4);
+        Map<Character, Integer[]> points = new HashMap<>();
+        points.put(')', new Integer[] { 3, 1 } );
+        points.put(']', new Integer[] { 57, 2} );
+        points.put('}', new Integer[] { 1197, 3} );
+        points.put('>', new Integer[] { 25137, 4 });
 
         long errorScore = 0;
         List<Long> incompleteScores = new ArrayList<>();
@@ -37,16 +31,15 @@ public class Syntax {
             long incompleteScore = 0;
             boolean errorFound = false;
             Stack<Character> stack = new Stack<>();
+            
             for (char c: line.toCharArray()) {
-                if (symbols.containsValue(c)) {
-                    //opening symbol, always legal.
-                    stack.push(c);
-                } else if (symbols.containsKey(c)) {
-                    // closing symbol, check with stack.
-                    if (stack.peek() == symbols.get(c)) {
+                if (symbols.containsKey(c)) {
+                    stack.push(symbols.get(c));
+                } else {
+                    if (stack.peek() == c) {
                         stack.pop();
                     } else {
-                        errorScore += errorPoints.get(c);
+                        errorScore += points.get(c)[0];
                         errorFound = true;
                         break;
                     }
@@ -56,7 +49,7 @@ public class Syntax {
                 while (stack.size() > 0) {
                     char c = stack.pop();
                     incompleteScore *= 5;
-                    incompleteScore += incompletePoints.get(c);
+                    incompleteScore += points.get(c)[1];
                 }
                 incompleteScores.add(incompleteScore);
             }
