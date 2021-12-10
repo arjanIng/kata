@@ -45,6 +45,7 @@ public class Syntax {
                     }
                 }
             }
+            
             if (!errorFound) {
                 while (stack.size() > 0) {
                     char c = stack.pop();
